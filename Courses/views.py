@@ -2,8 +2,9 @@ from django.shortcuts import render, get_object_or_404 , redirect
 from django.db.models import Q
 from products.models import Product
 from django.contrib.auth import authenticate , login
-# from .forms import LoginForm
-from accounts.forms import RegisterForm
+from .forms import LoginForm
+from accounts.forms import RegisterForm , DocumentForm
+
 #from example.config import pagination
 # Create your views here.
 def cat(request, category_id ):
@@ -116,3 +117,16 @@ def payment(request, course_id):
     'course': courses,
     }
     return render(request, 'payment.html', context)
+
+def upload(request):
+    if request.method == 'POST':
+        form = DocumentForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home_page')
+    else:
+        form = DocumentForm()
+    return render(request, 'upload.html', {
+        'form': form
+    })
+
