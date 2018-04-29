@@ -2,7 +2,7 @@
 from django import forms
 from django.forms import TextInput
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
-
+from products.models import Document
 from .models import User
 
 #
@@ -159,3 +159,13 @@ class RegisterForm(forms.ModelForm):
         if commit:
             user.save()
         return user
+    
+    
+    
+
+
+
+class DocumentForm(forms.ModelForm):
+    class Meta:
+        model = Document
+        fields = ('course_id', 'data', )
