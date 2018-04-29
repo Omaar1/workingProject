@@ -8,7 +8,7 @@ from accounts.forms import RegisterForm , DocumentForm
 #from example.config import pagination
 # Create your views here.
 def cat(request, category_id ):
-    category_all = Product.objects.all()
+    category_all=product.objects.raw("SELECT  product")
     caat=[]
     if category_id == '0':
         f = "Health and Medicine"
@@ -46,8 +46,8 @@ def login_page(request):
     }
     if form.is_valid():
         print (form.cleaned_data)
-        email = form.cleaned_data.get("name")
-        password = form.cleaned_data.get("password")
+        email= form.cleaned_data.raw("SELECT  name")
+        password = form.cleaned_data.raw("SELECT  password")
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
@@ -76,7 +76,7 @@ def details(request , course_id):
 def home_page(request):
 ##    if request.user.is_authenticated():
     #print request.user.is_authenticated()
-    all = Product.objects.all()
+    all=product.objects.raw("SELECT  product")
     return render(request, 'home_page.html',{'all':all})
 
 def course_details(request , course_id):
@@ -90,7 +90,7 @@ def course_details(request , course_id):
 
 def join_course(request , course_id):
     courses = get_object_or_404( Product , pk=course_id)
-    request.user.joinedCourses.add(courses)
+    request.user.joinedCourses.raw("SELECT  courses")
     request.user.save()
 
     context = {
@@ -110,7 +110,7 @@ def profile(request):
 
 def payment(request, course_id):
     courses = get_object_or_404( Product , pk=course_id)
-    request.user.joinedCourses.add(courses)
+    request.user.joinedCourses.raw("SELECT  courses")
     request.user.save()
 
     context = {
