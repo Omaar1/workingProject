@@ -97,6 +97,7 @@
 																			{%endif%}
 																		{%endfor%}
 																{%endif%}
+                                                    
 
 
 
@@ -120,9 +121,40 @@
 
 
 											 <div class="course-teacher">
+      
+                                                    {%if request.user.is_instructor == True %}
+                                                         {%if request.user.user_name == course.instructorFullName %}
+                                                             <div class="document">
+
+                                                            <h7>You can add Documents here Instructor {{ course.instructorFullName }}..</h7>
+                                                                   <p><a href="{% url 'upload' %}">upload</a></p>
+                                            
+
+
+                                                             </div>
+                                                     {%endif%}
+                                                 {%endif%}
+                                                 <br><br><br><br>
+                                                 
+                                                 <div class"downloaded data">
+                                                     <p> <span style="color:red">COURSE</span> documents upladed</p>
+                                                     {% for doc in course.document_set.all %}
+                                                      
+                                                                 
+                                                               - <a href="">{{doc.data}}</a>
+                                                     <br>
+                                                   
+                                                                 {%endfor%}
+                                                 
+                                                 </div>
+                                                 <br><br><br><br>
+                                                 
+	
+                                                     
+                                                 
 														<h3>Meet Our Course Teacher</h3>
 							<div class="row">
-
+                                    
 								<div class="col-sm-3">
 					                <div class="course-teacher-img">
                                         <img src="{{ course.instructorImageUrl }}" alt="{{ course.instructorFullName }}" class="img-responsive" /></a>
