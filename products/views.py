@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.db.models import Q
 from products.models import Product , parser
 import re
-# Create your views here.
 
 # def product_LView(request):
 #
@@ -34,10 +33,12 @@ import re
 #         # prodcut.save()
 #     return render(request, "products/list.html" ,)
 
-
-
-
-
+# '''
+# my quey ---->>> SELECT *
+#                 FROM "products_product"
+#                 WHERE ("products_product"."name" LIKE %aaa% ESCAPE '\' OR "products_product"."category" LIKE %aaa% ESCAPE '\' OR "products_product"."summary" LIKE %aaa% ESCAPE '\' OR "products_product"."type" LIKE %aaa% ESCAPE '\' OR "products_product"."instructorFullName" LIKE %aaa% ESCAPE '\')
+#
+# '''
 def search(request):
     query = request.GET.get('q')
     print(query + '\nsearch query***\n')
@@ -46,15 +47,16 @@ def search(request):
                                         | Q(summary__icontains=query)
                                         | Q(type__icontains=query)
                                         | Q(instructorFullName__icontains=query))
-
+    # results = Product.objects.raw('SELECT * FROM products_product  WHERE ("products_product"."name" LIKE %sec%)   ')
     context = {
             'course':results
     }
+    # print("my quey ---->>> "+ results.query.__str__() + "\n")
     return render(request ,'details.html' , context)
 
 def product_list_view(request):
-    queryset = Product.objects.all()
-    print('got heerrrrre ---> \n'  )
+    # queryset = Product.objects.all()
+    queryset = Product.objects.raw('SELECT * FROM products_product')
     context = {
         'course' : queryset
     }
